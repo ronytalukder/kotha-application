@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import Registration from './pages/registration';
 
 function App() {
   return (
-    <div className="App">
-      <h1> Jahangir Alalm Talukder Rony</h1>
+    <div>
+      <Registration></Registration>
     </div>
   );
 }
