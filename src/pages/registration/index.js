@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const auth = getAuth();
@@ -29,6 +30,8 @@ const Registration = () => {
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate()
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -70,8 +73,7 @@ const Registration = () => {
     if (
       fullName &&
       email &&
-      password &&
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      password &&/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
     ) {
       setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
@@ -85,6 +87,7 @@ const Registration = () => {
           setPassword("");
           sendEmailVerification(auth.currentUser).then(() => {
             setLoading(false);
+            navigate('/login')
             // Email verification sent!
             // ...
           });
@@ -194,7 +197,7 @@ const Registration = () => {
               </Button>
               <p className="text-base font-medium text-center text-secondary-headding font-nunito mb-10">
                 Already have an account ?{" "}
-                <span className="text-primary-headding">Sign In</span>
+                <Link to='/login' className="text-primary-headding">Log In</Link>
               </p>
             </div>
           </div>
@@ -219,4 +222,3 @@ const Registration = () => {
 
 export default Registration;
 
-// class 1 part 3 35 minutes theke dekhte hobe

@@ -1,11 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import Registration from './pages/registration';
+import { RouterProvider } from 'react-router-dom';
+import router from './Routes/Routes';
 
 function App() {
   return (
     <div>
-      <Registration></Registration>
+        <RouterProvider router={router}></RouterProvider>
     </div>
   );
 }
