@@ -50,12 +50,12 @@ const ForgotPassword = () => {
     }
 
   return (
-    <div className="bg-secondary-headding bg-opacity-20 h-screen flex justify-center items-center">
+    <div className="bg-pera p-2 lg:p-0 bg-opacity-40 h-screen flex justify-center items-center">
         <ToastContainer position="top-center" theme="colored" />
       <Card className="w-[400px]">
         <CardHeader
           variant="gradient"
-          color="blue"
+          color="green"
           className="mb-4 grid h-20 place-items-center"
         >
           <Typography variant="h4" className='font-nunito text-2xl font-semibold' color="white">
@@ -63,13 +63,13 @@ const ForgotPassword = () => {
           </Typography>
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
-          <Input value={email} onChange={(e)=>setEmail(e.target.value)} label="Email" size="lg" />
+          <Input color="green" value={email} onChange={(e)=>setEmail(e.target.value)} label="Email" size="lg" />
         </CardBody>
         <CardFooter className="pt-0 flex gap-2">
             <Button onClick={backToLogin}  variant="gradient" color="amber" fullWidth className='font-nunito text-sm font-semibold'>
                 cancel
             </Button>
-            <Button onClick={handleForgotPassword} variant="gradient" fullWidth className='font-nunito text-sm font-semibold'>
+            <Button onClick={handleForgotPassword} variant="gradient" color="green" fullWidth className='font-nunito text-sm font-semibold'>
               Send
             </Button>
         </CardFooter>
@@ -79,3 +79,7 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
+
+// class 21 -  part 1, 40:00
+  

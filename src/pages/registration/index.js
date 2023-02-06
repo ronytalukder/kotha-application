@@ -106,11 +106,11 @@ const Registration = () => {
   };
 
   return (
-    <div className="flex h-screen items-center">
+    <div className="flex p-2 lg:p-0 h-auto lg:h-screen  lg:flex-row flex-col-reverse items-center">
       <ToastContainer position="top-center" theme="colored" />
-      <div className="w-2/4 flex  justify-end">
-        <div className="w-2/4">
-          <h2 className="text-3xl text-center font-bold font-nunito text-primary-headding">
+      <div className="w-full lg:w-2/4 flex  lg:justify-end">
+        <div className="w-full lg:w-2/4">
+          <h2 className="text-lg lg:text-3xl text-center font-bold font-nunito text-primary-headding">
             Get started with easily register
           </h2>
 
@@ -204,12 +204,12 @@ const Registration = () => {
         </div>
       </div>
 
-      <div className="w-2/4 flex items-center ">
+      <div className="w-full lg:w-2/4 flex lg:items-center ">
         <div>
           <h1 className="text-6xl mb-5  text-center font-bold font-nunito text-primary-headding">
             Kotha
           </h1>
-          <p className="text-xl font-medium text-center text-secondary-headding font-nunito mb-10">
+          <p className="text-xl hidden md:block font-medium text-center text-secondary-headding font-nunito mb-2 lg:mb-10">
             Talk will now be on{" "}
             <span className="text-primary-headding">Kotha App</span>
           </p>
