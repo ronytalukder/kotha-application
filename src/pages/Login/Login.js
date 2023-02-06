@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Input } from "@material-tailwind/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
-import { ThreeDots, Watch } from "react-loader-spinner";
-import { Link } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { ThreeDots } from "react-loader-spinner";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 
 const Login = () => {
@@ -32,7 +32,7 @@ const Login = () => {
     setPassword(e.target.value);
     setErrorPassword("");
   };
-
+  const navigate = useNavigate()
   const handleLogin = () => {
       if (!email) {
         setErrorEmail("Email Is Required");
@@ -56,6 +56,7 @@ const Login = () => {
                 setEmail('')
                 setPassword('')
                 setLoading(false)
+                navigate('/home')
               })
               .catch((error) => {
                 const errorCode = error.code;
@@ -72,6 +73,13 @@ const Login = () => {
       }
     console.log(email, password);
   };
+  const provider = new GoogleAuthProvider();
+  const handleGoogleSignIn=()=>{
+    signInWithPopup(auth, provider)
+    .then(()=>{
+      navigate('/home')
+    })
+  }
 
   return (
     <div>
@@ -145,12 +153,29 @@ const Login = () => {
                     "Log In"
                   )}
                 </Button>
+                <Button
+                  onClick={handleGoogleSignIn}
+                  className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
+                  fullWidth
+                  color="amber"
+
+                > 
+                     <FaGoogle></FaGoogle>
+                    <p>Login with Google</p>
+                  
+                </Button>
+                <p className="text-base font-medium text-center text-secondary-headding font-nunito">
+                  <Link to="/forgotPassword" className="text-primary-headding">
+                  Forgotten password?
+                  </Link>
+                </p>
                 <p className="text-base font-medium text-center text-secondary-headding font-nunito mb-10">
                   Don’t have an account ?{" "}
                   <Link to="/signup" className="text-primary-headding">
                     Sign Up
                   </Link>
                 </p>
+                
               </div>
             </div>
           </div>
@@ -158,7 +183,7 @@ const Login = () => {
 
         <div className="w-2/4">
           <div>
-            <h1 className="text-6xl  text-center font-bold font-nunito text-primary-headding mb-5">
+            <h1 className="text-6xl  text-center font-bold font-nunito text-pera mb-5">
               Kotha
             </h1>
             <p className="text-xl font-medium text-center text-secondary-headding font-nunito mb-5">

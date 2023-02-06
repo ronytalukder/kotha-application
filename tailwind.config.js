@@ -21,6 +21,9 @@ module.exports = withMT( {
       'secondary-headding': '#2196F3',
       'pera': '#FFC107',
     },
+    screens: {
+      sm: '375px',
+    },
     
   },
   plugins: [],
