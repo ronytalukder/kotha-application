@@ -49,9 +49,6 @@ const Login = () => {
         setLoading(true)
         signInWithEmailAndPassword(auth, email,password)
             .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // ...
                 toast.success("Log In Successfully.");
                 setEmail('')
                 setPassword('')
@@ -83,8 +80,8 @@ const Login = () => {
 
   return (
     <div>
-      <div className="flex p-2 lg:p-0 h-auto lg:h-screen  lg:flex-row flex-col-reverse items-center">
         <ToastContainer position="top-center" theme="colored" />
+      <div className="flex p-2 lg:p-0 h-auto lg:h-screen  lg:flex-row flex-col-reverse items-center">
         <div className="w-full lg:w-2/4 flex  lg:justify-end">
         <div className="w-full lg:w-2/4">
             <h2 className="text-3xl mb-10 text-center font-bold font-nunito text-primary-headding">
@@ -158,7 +155,7 @@ const Login = () => {
                   className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
                   fullWidth
                   color="amber"
-
+                            
                 > 
                      <FaGoogle></FaGoogle>
                     <p>Login with Google</p>
