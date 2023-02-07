@@ -3,8 +3,10 @@ import { Button, Input } from "@material-tailwind/react";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
-import { Link, useNavigate } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { userLoginInfo } from "../../slices/userSlice";
 
 
 const Login = () => {
@@ -15,6 +17,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("password");
   const auth = getAuth();
+  const dispatch = useDispatch();
 
   const shoPass = () => {
     if (type === "password") {
@@ -48,12 +51,17 @@ const Login = () => {
       if(email&&password){
         setLoading(true)
         signInWithEmailAndPassword(auth, email,password)
-            .then((userCredential) => {
+            .then((user) => {
+                // console.log('login user information', user.user)
+                dispatch(userLoginInfo(user.user))
+                localStorage.setItem('userInfo', JSON.stringify(user))
                 toast.success("Log In Successfully.");
                 setEmail('')
                 setPassword('')
                 setLoading(false)
-                navigate('/home')
+                setTimeout(()=>{
+                  navigate('/home')
+                },1000)
               })
               .catch((error) => {
                 const errorCode = error.code;
@@ -68,7 +76,7 @@ const Login = () => {
               });
         
       }
-    console.log(email, password);
+    
   };
   const provider = new GoogleAuthProvider();
   const handleGoogleSignIn=()=>{

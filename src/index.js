@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-tailwind/react";
-import firebaseConfig from './firebaseConfig';
-import 'react-toastify/dist/ReactToastify.css';
+import firebaseConfig from "./firebaseConfig";
+import "react-toastify/dist/ReactToastify.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import store from "./store";
+import { Provider } from "react-redux";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-    <App />
+      <Provider store={store}>
+        <App /> 
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>
 );
