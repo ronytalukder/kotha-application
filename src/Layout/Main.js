@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import  Menu  from '../components/Navbar/Menu';
 
-const Home = () => {
+const Main = () => {
+
     const data = useSelector(state => state.userLoginInfo.userInfo)
-    console.log(data)
     const navigate = useNavigate()
     
     useEffect(()=>{
@@ -15,12 +16,10 @@ const Home = () => {
 
     return (
         <div>
-            <h1>This is home page</h1>
+            <Menu></Menu>
+            <Outlet></Outlet>
         </div>
     );
 };
 
-export default Home;
-
-
-// log in registraion redux setup class er 22 er part 4 er 10 minutes theke 
+export default Main;
