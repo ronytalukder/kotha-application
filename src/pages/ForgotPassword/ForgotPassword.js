@@ -81,5 +81,5 @@ const ForgotPassword = () => {
 export default ForgotPassword;
 
 
-// class 22 -  part 1, 00:00
+
   

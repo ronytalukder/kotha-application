@@ -9,7 +9,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userLoginInfo } from '../../slices/userSlice';
 import { FaCommentDots, FaHome } from 'react-icons/fa';
@@ -95,6 +95,11 @@ const Menu = () => {
           
           </NavLink>
         </Typography>
+        <Typography>
+          <div className='h-20 w-20 rounded-full overflow-hidden'>
+            <img src="images/profile.png" className='w-full' alt="" />
+          </div>
+        </Typography>
       </ul>
     );
     
@@ -121,16 +126,15 @@ const Menu = () => {
         
         <div className="mx-auto flex items-center justify-between text-blue-gray-900">
           <Typography
-            as="a"
-            href="#"
             variant="small"
             className="mr-4 cursor-pointer py-1.5 font-normal"
           >
-            <span  className='text-4xl font-bold text-primary-headding'>Kotha</span>
+            <Link to='/home'><span  className='text-4xl font-bold text-primary-headding'>Kotha</span></Link>
           </Typography>
-          <div className='flex'>
+          <div className='flex items-center'>
             <div className="hidden lg:block">{navList}</div>
-          <Button  onClick={handleLogOut} variant="gradient" color='green' size="sm" className="hidden lg:inline-block ml-0 lg:ml-5">
+          <Button  onClick={handleLogOut} variant="gradient" color='green' size="sm" className="hidden  lg:inline-block ml-0 lg:ml-5">
+             
             <span>Log Out</span>
           </Button>
           </div>
@@ -176,7 +180,7 @@ const Menu = () => {
         <MobileNav open={openNav}>
           <div className="container mx-auto">
             {navList}
-            <Button onClick={handleLogOut} variant="gradient" color='amber' size="sm" fullWidth className="mb-2">
+            <Button onClick={handleLogOut} variant="gradient" color='amber' fullWidth className="mb-2">
               <span >Log Out</span>
         
             </Button>
