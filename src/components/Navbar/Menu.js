@@ -30,9 +30,13 @@ const Menu = () => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
+  const [imagesUploadModal, setImagesUploadModal] = useState(false);
 
   const handleImageUpload = () => {
-    console.log("imag");
+    setImagesUploadModal(true)
+  };
+  const handleImageUploadClose = () => {
+    setImagesUploadModal(false)
   };
 
   const handleProfileUpload = (e) => {
@@ -263,7 +267,8 @@ const Menu = () => {
           </Button>
         </div>
       </MobileNav>
-      <div className="h-screen w-full absolute flex justify-center items-center left-0 top-0 bg-secondary-headding">
+      {
+        imagesUploadModal&& <div className="h-screen w-full absolute flex justify-center items-center left-0 top-0 bg-secondary-headding">
         <div className="w-2/5  p-7 bg-white rounded-lg ">
           <h2 className="capitalize font-nunito text-3xl mb-6 text-secondary-headding font-bold">
             upload your profile
@@ -328,6 +333,7 @@ const Menu = () => {
 
           <div className="flex mt-6">
             <Button
+            onClick={handleImageUploadClose}
               className=" flex mr-5 justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
               color="green"
               size="sm"
@@ -335,7 +341,7 @@ const Menu = () => {
               <p>Cancel</p>
             </Button>
             {
-              image &&<Button
+              cropted &&<Button
               className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
               color="amber"
               size="sm"
@@ -346,9 +352,11 @@ const Menu = () => {
           </div>
         </div>
       </div>
+      }
+     
     </Navbar>
   );
 };
 
 export default Menu;
-// class 23 part 1 - 45 minutes 
+// class 23 part 1 - 53 minutes 
