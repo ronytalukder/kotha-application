@@ -125,4 +125,4 @@ const Home = () => {
 
 export default Home;
 
-// log in registraion redux setup class er 22 er part 5 theke dekhte hobe
+

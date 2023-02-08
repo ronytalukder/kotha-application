@@ -3,6 +3,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+
 import {
   Navbar,
   MobileNav,
@@ -27,6 +29,7 @@ const Menu = () => {
     );
   }, []);
 
+  const storage = getStorage();
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
@@ -37,6 +40,9 @@ const Menu = () => {
   };
   const handleImageUploadClose = () => {
     setImagesUploadModal(false)
+    setImage('')
+    setCropData('')
+    setCropper('')
   };
 
   const handleProfileUpload = (e) => {
@@ -55,12 +61,19 @@ const Menu = () => {
     reader.readAsDataURL(files[0]);
   };
 
-  const [cropted , setCroped] = useState(false)
 
   const getCropData = () => {
-    setCroped(true)
     if (typeof cropper !== "undefined") {
       setCropData(cropper.getCroppedCanvas().toDataURL());
+
+      const storageRef = ref(storage, auth.currentUser.uid);
+      const message4 = cropper.getCroppedCanvas().toDataURL();
+      uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+        getDownloadURL(storageRef).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+        });
+    
+      });
     }
   };
 
@@ -270,9 +283,12 @@ const Menu = () => {
       {
         imagesUploadModal&& <div className="h-screen w-full absolute flex justify-center items-center left-0 top-0 bg-secondary-headding">
         <div className="w-2/5  p-7 bg-white rounded-lg ">
+
           <h2 className="capitalize font-nunito text-3xl mb-6 text-secondary-headding font-bold">
             upload your profile
           </h2>
+
+
           <input onChange={handleProfileUpload} type="file" />
           
            {
@@ -301,36 +317,17 @@ const Menu = () => {
             image&&
             <>
             <div className="flex justify-between">
-          {/* <div>
+          <div>
             <h2 className="text-base font-bold text-primary-headding capitalize p-4">preview</h2>
           <div className=" overflow-hidden h-56 w-56">
             <div className="img-preview w-full h-full"></div>
           </div>
-          </div> */}
-          {
-            cropted&&<div>
-            <h2 className="text-base font-bold text-primary-headding capitalize p-4">cropped</h2>
-              <div className="w-56 m-auto">
-                <img className="w-full" src={cropData} alt="cropped" />
-              </div>
-            </div>
-          }
+          </div>
           </div>
 
-
-          <Button
-            color="amber"
-            className=" mt-9 font-nunito text-base "
-            size="sm"
-            onClick={getCropData}
-          >
-            Crop Image
-          </Button></>
+</>
           }
           
-
-          
-
           <div className="flex mt-6">
             <Button
             onClick={handleImageUploadClose}
@@ -340,15 +337,15 @@ const Menu = () => {
             >
               <p>Cancel</p>
             </Button>
-            {
-              cropted &&<Button
+            <Button
+            onClick={getCropData}
               className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
               color="amber"
               size="sm"
             >
               <p>Upload</p>
             </Button>
-            }
+            
           </div>
         </div>
       </div>
@@ -359,4 +356,4 @@ const Menu = () => {
 };
 
 export default Menu;
-// class 23 part 1 - 53 minutes 
+// class 23 part 2 - 00 minutes theke dekhte hobe 
