@@ -8,6 +8,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -31,7 +32,7 @@ const Registration = () => {
   const [errorPassword, setErrorPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -73,24 +74,32 @@ const Registration = () => {
     if (
       fullName &&
       email &&
-      password &&/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      password &&
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
     ) {
       setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          // ...
-          toast.success("Registraion Successfull. Please verify your email");
-          setFullName("");
-          setEmail("");
-          setPassword("");
-          sendEmailVerification(auth.currentUser).then(() => {
-            setLoading(false);
-            navigate('/login')
-            // Email verification sent!
-            // ...
-          });
+        .then((user) => {
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+            photoURL: "images/default-profile.png",
+          })
+            .then(() => {
+              toast.success(
+                "Registraion Successfull. Please verify your email"
+              );
+              console.log('update lksjdflshdl',user )
+              setFullName("");
+              setEmail("");
+              setPassword("");
+              sendEmailVerification(auth.currentUser).then(() => {
+                setLoading(false);
+                navigate("/login");
+              });
+            })
+            .catch((error) => {
+              console.log(error)
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -177,27 +186,28 @@ const Registration = () => {
                 fullWidth
                 color="green"
               >
-                    {
-                        loading?
-                <div className="flex justify-center items-center">
-                  <ThreeDots
-                    height="40"
-                    width="40"
-                    radius="9"
-                    color="#fff"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{}}
-                    wrapperClassName=""
-                    visible={true}
-                  />
-                </div>:
-
-                'Sign Up'
-                    }
+                {loading ? (
+                  <div className="flex justify-center items-center">
+                    <ThreeDots
+                      height="40"
+                      width="40"
+                      radius="9"
+                      color="#fff"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClassName=""
+                      visible={true}
+                    />
+                  </div>
+                ) : (
+                  "Sign Up"
+                )}
               </Button>
               <p className="text-base font-medium text-center text-secondary-headding font-nunito mb-10">
                 Already have an account ?{" "}
-                <Link to='/login' className="text-primary-headding">Log In</Link>
+                <Link to="/login" className="text-primary-headding">
+                  Log In
+                </Link>
               </p>
             </div>
           </div>
@@ -221,4 +231,3 @@ const Registration = () => {
 };
 
 export default Registration;
-
