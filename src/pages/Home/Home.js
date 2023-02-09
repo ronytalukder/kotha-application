@@ -18,8 +18,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-    dispatch(userLoginInfo(user.user));
-    localStorage.setItem("userInfo", JSON.stringify(user));
+    dispatch(userLoginInfo(user))
+    localStorage.setItem('userInfo', JSON.stringify(user))
   });
 
   const navigate = useNavigate();

@@ -1,9 +1,14 @@
 import React from "react";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useState, useEffect } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadString,
+} from "firebase/storage";
 
 import {
   Navbar,
@@ -14,11 +19,12 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLoginInfo } from "../../slices/userSlice";
 import { FaCloudUploadAlt, FaCommentDots, FaHome } from "react-icons/fa";
 import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { AiFillSetting } from "react-icons/ai";
+import { Dna } from "react-loader-spinner";
 
 const Menu = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -34,16 +40,23 @@ const Menu = () => {
   const [cropData, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
   const [imagesUploadModal, setImagesUploadModal] = useState(false);
+  const [uploadLoader, setUploadLoader] = useState(false);
 
   const handleImageUpload = () => {
-    setImagesUploadModal(true)
+    setImagesUploadModal(true);
   };
   const handleImageUploadClose = () => {
-    setImagesUploadModal(false)
-    setImage('')
-    setCropData('')
-    setCropper('')
+    setImagesUploadModal(false);
+    setImage("");
+    setCropData("");
+    setCropper("");
   };
+
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let data = useSelector((state) => state.userLoginInfo.userInfo);
+  // console.log('l;sdkfl;ksdkl;fs',data)
 
   const handleProfileUpload = (e) => {
     e.preventDefault();
@@ -61,20 +74,40 @@ const Menu = () => {
     reader.readAsDataURL(files[0]);
   };
 
-
   const getCropData = () => {
+    setUploadLoader(true);
     if (typeof cropper !== "undefined") {
       setCropData(cropper.getCroppedCanvas().toDataURL());
 
       const storageRef = ref(storage, auth.currentUser.uid);
       const message4 = cropper.getCroppedCanvas().toDataURL();
-      uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+      uploadString(storageRef, message4, "data_url").then((snapshot) => {
         getDownloadURL(storageRef).then((downloadURL) => {
-          console.log('File available at', downloadURL);
+          // console.log('File available at', downloadURL);
+          updateProfile(auth.currentUser, {
+            photoURL: downloadURL,
+          }).then(() => {
+            setImagesUploadModal(false);
+            setImage("");
+            setCropData("");
+            setCropper("");
+            setUploadLoader(false);
+          });
         });
-    
       });
     }
+  };
+
+  const handleLogOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(userLoginInfo(null));
+        localStorage.removeItem("userInfo");
+        navigate("/login");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const navList = (
@@ -172,7 +205,7 @@ const Menu = () => {
       </Typography>
       <Typography>
         <div className="group relative h-20 w-20 rounded-full overflow-hidden">
-          <img src="images/profile.png" className="w-full" alt="" />
+          <img src={data.photoURL} className="w-full" alt="" />
           <div
             onClick={handleImageUpload}
             className="absolute opacity-0 group-hover:opacity-100 left-0 top-0 h-full w-full rounded-full bg-blue-gray-900 bg-opacity-75 flex justify-center items-center"
@@ -183,22 +216,6 @@ const Menu = () => {
       </Typography>
     </ul>
   );
-
-  const auth = getAuth();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleLogOut = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(userLoginInfo(null));
-        localStorage.removeItem("userInfo");
-        navigate("/login");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
 
   return (
     <Navbar
@@ -280,80 +297,97 @@ const Menu = () => {
           </Button>
         </div>
       </MobileNav>
-      {
-        imagesUploadModal&& <div className="h-screen w-full absolute flex justify-center items-center left-0 top-0 bg-secondary-headding">
-        <div className="w-2/5  p-7 bg-white rounded-lg ">
+      {imagesUploadModal && (
+        <div className="h-screen w-full absolute flex justify-center items-center left-0 top-0 bg-secondary-headding">
+          <div className="w-2/5  p-7 bg-white rounded-lg ">
+            <h2 className="capitalize font-nunito text-3xl mb-6 text-secondary-headding font-bold">
+              upload your profile
+            </h2>
 
-          <h2 className="capitalize font-nunito text-3xl mb-6 text-secondary-headding font-bold">
-            upload your profile
-          </h2>
+            <input onChange={handleProfileUpload} type="file" />
 
+            {image && (
+              <Cropper
+                style={{ height: 400, width: "100%" }}
+                zoomTo={0.5}
+                initialAspectRatio={1}
+                preview=".img-preview"
+                src={image}
+                viewMode={1}
+                minCropBoxHeight={10}
+                minCropBoxWidth={10}
+                background={false}
+                responsive={true}
+                autoCropArea={1}
+                checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                onInitialized={(instance) => {
+                  setCropper(instance);
+                }}
+                guides={true}
+              />
+            )}
 
-          <input onChange={handleProfileUpload} type="file" />
-          
-           {
-            image&&
-            <Cropper
-            style={{ height: 400, width: "100%" }}
-            zoomTo={0.5}
-            initialAspectRatio={1}
-            preview=".img-preview"
-            src={image}
-            viewMode={1}
-            minCropBoxHeight={10}
-            minCropBoxWidth={10}
-            background={false}
-            responsive={true}
-            autoCropArea={1}
-            checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-            onInitialized={(instance) => {
-              setCropper(instance);
-            }}
-            guides={true}
-          />
-           }
-          
-          {
-            image&&
-            <>
-            <div className="flex justify-between">
-          <div>
-            <h2 className="text-base font-bold text-primary-headding capitalize p-4">preview</h2>
-          <div className=" overflow-hidden h-56 w-56">
-            <div className="img-preview w-full h-full"></div>
-          </div>
-          </div>
-          </div>
+            {image && (
+              <>
+                <div className="flex justify-between">
+                  <div>
+                    <h2 className="text-base font-bold text-primary-headding capitalize p-4">
+                      preview
+                    </h2>
+                    <div className=" overflow-hidden h-56 w-56">
+                      <div className="img-preview w-full h-full"></div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
 
-</>
-          }
-          
-          <div className="flex mt-6">
-            <Button
-            onClick={handleImageUploadClose}
-              className=" flex mr-5 justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
-              color="green"
-              size="sm"
-            >
-              <p>Cancel</p>
-            </Button>
-            <Button
-            onClick={getCropData}
-              className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
-              color="amber"
-              size="sm"
-            >
-              <p>Upload</p>
-            </Button>
-            
+            <div className="flex mt-6">
+              <Button
+                onClick={handleImageUploadClose}
+                className=" flex mr-5 justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
+                color="green"
+                size="sm"
+              >
+                <p>Cancel</p>
+              </Button>
+
+                <div>
+                  {
+                    uploadLoader?
+                    <Dna
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="dna-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="dna-wrapper"
+                  />
+                    :
+                    <div>
+              {image && (
+                <Button
+                  onClick={getCropData}
+                  className=" flex justify-center gap-2 items-center font-nunito text-base font-medium capitalize relative"
+                  color="amber"
+                  size="sm"
+                >
+                  <p>Upload</p>
+                </Button>
+              )}
+              </div>
+                  }
+                </div>
+              
+
+              
+            </div>
           </div>
         </div>
-      </div>
-      }
-     
+      )}
     </Navbar>
   );
 };
 
 export default Menu;
-// class 23 part 2 - 00 minutes theke dekhte hobe 
+// class 23 part 3 - 00 minutes theke dekhte hobe
