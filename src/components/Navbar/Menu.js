@@ -391,4 +391,8 @@ const Menu = () => {
 
 export default Menu;
 // class 23 part 3 - 00 minutes theke dekhte hobe and aj ker modhe eita ses korete hobe 
-// ajker modhe dekhe ses korte hobe
+// and 24 number ta o ses korte hobe
+
+
+
+
