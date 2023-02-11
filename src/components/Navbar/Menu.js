@@ -178,6 +178,7 @@ const Menu = () => {
             </Button>
           </Tooltip>
         </NavLink>
+        
       </Typography>
       <Typography
         as="li"
@@ -214,6 +215,7 @@ const Menu = () => {
           </div>
         </div>
       </Typography>
+      <h1 className="font-nunito text-2xl font-bold text-black">{data.displayName}</h1>
     </ul>
   );
 
@@ -390,7 +392,7 @@ const Menu = () => {
 };
 
 export default Menu;
-// class 23 part 3 - 00 minutes theke dekhte hobe and aj ker modhe eita ses korete hobe 
+// class 23 part 3 - 19 minutes theke dekhte hobe and aj ker modhe eita ses korete hobe 
 // and 24 number ta o ses korte hobe
 
 

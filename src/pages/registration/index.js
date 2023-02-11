@@ -3,6 +3,8 @@ import { Button, Input } from "@material-tailwind/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { ThreeDots, Watch } from "react-loader-spinner";
+import { getDatabase, ref, set } from "firebase/database";
+
 
 import {
   getAuth,
@@ -13,6 +15,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 const Registration = () => {
+  const db = getDatabase();
+
   const auth = getAuth();
   const [type, setType] = useState("password");
 
@@ -96,6 +100,12 @@ const Registration = () => {
                 setLoading(false);
                 navigate("/login");
               });
+            }).then(()=>{
+              set(ref(db, 'users/' + user.user.uid), {
+                username: user.user.displayName,
+                email: user.user.email
+              });
+            
             })
             .catch((error) => {
               console.log(error)
