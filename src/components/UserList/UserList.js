@@ -1,7 +1,7 @@
 import { Button } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
 import { FaPlus } from "react-icons/fa";
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from 'react-redux';
 
 
@@ -18,18 +18,38 @@ const UserList = () => {
       let arr = []
       snapshot.forEach(item =>{
         if(data.uid != item.key){
-          arr.push(item.val())
+          arr.push({...item.val(),userId:item.key})
         }
       })
       setUserList(arr)
     });
   },[])
 
+  const handleFriendRequrest = (user) =>{
+    set(push(ref(db, 'friendRequest')), {
+      senderName: data.displayName,
+      senderid: data.uid,
+      reciverName:user.username,
+      reciverId : user.userId
+    });
+  }
+
+  useEffect(()=>{
+    const friendRequestRef = ref(db, 'friendRequest');
+    onValue(friendRequestRef, (snapshot) => {
+      let arr = []
+      snapshot.forEach(item =>{
+          arr.push()
+      })
+      setUserList(arr)
+    });
+  },[])
+ 
     return (
         <div>
 
           {
-            userList.map(user => <div className="flex justify-between items-center border-b pb-3 mb-3">
+            userList.map((user,i) => <div key={i} className="flex justify-between items-center border-b pb-3 mb-3">
             <div className="flex items-center">
               <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
                 <img src="images/profile.png" alt="" />
@@ -40,7 +60,7 @@ const UserList = () => {
               </div>
             </div>
             <div>
-            <Button className="font-nunito capitalize" size="sm" color="green"> Add Friend</Button>
+            <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green"> Add Friend</Button>
             </div>
           </div> )
           }
@@ -50,3 +70,6 @@ const UserList = () => {
 };
 
 export default UserList;
+
+
+// class 24 part  116 number theke dekhte hobe 

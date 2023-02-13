@@ -392,8 +392,7 @@ const Menu = () => {
 };
 
 export default Menu;
-// class 24 part 11 - 00 minutes theke dekhte hobe and aj ker modhe eita ses korete hobe 
-// and 24 number ta o ses korte hobe
+
 
 
 
