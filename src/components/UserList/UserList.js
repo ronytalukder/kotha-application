@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const UserList = () => {
   const db = getDatabase();
   const [userList, setUserList] =  useState([])
+  const [friendRequestList, setFriendRequestList] =  useState([])
   
   const data = useSelector(state => state.userLoginInfo.userInfo)
   console.log(data.uid)
@@ -39,9 +40,9 @@ const UserList = () => {
     onValue(friendRequestRef, (snapshot) => {
       let arr = []
       snapshot.forEach(item =>{
-          arr.push()
+          arr.push(item.val().reciverId+item.val().reciverId)
       })
-      setUserList(arr)
+      setFriendRequestList(arr)
     });
   },[])
  
@@ -72,4 +73,4 @@ const UserList = () => {
 export default UserList;
 
 
-// class 24 part  116 number theke dekhte hobe 
+// class 24 part  1 22  number theke dekhte hobe 
