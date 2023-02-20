@@ -57,4 +57,4 @@ const FriendRequest = () => {
 
 export default FriendRequest;
 
-// class 24 part  2 theke dekhte hobe
+// class 24 part  2 theke dekhte hobe. aj ker modhe ses korte hobe
