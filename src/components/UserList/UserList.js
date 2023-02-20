@@ -29,7 +29,7 @@ const UserList = () => {
   const handleFriendRequrest = (user) =>{
     set(push(ref(db, 'friendRequest')), {
       senderName: data.displayName,
-      senderid: data.uid,
+      senderId: data.uid,
       reciverName:user.username,
       reciverId : user.userId
     });
@@ -40,7 +40,7 @@ const UserList = () => {
     onValue(friendRequestRef, (snapshot) => {
       let arr = []
       snapshot.forEach(item =>{
-          arr.push(item.val().reciverId+item.val().reciverId)
+          arr.push(item.val().reciverId+item.val().senderId)
       })
       setFriendRequestList(arr)
     });
@@ -61,7 +61,14 @@ const UserList = () => {
               </div>
             </div>
             <div>
-            <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green"> Add Friend</Button>
+              {
+                friendRequestList.includes(user.userId+data.uid) || friendRequestList.includes(data.uid+user.userId)
+                ?
+                <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green">Cancel Request </Button>
+                :
+                <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green"> Add Friend </Button>
+              }
+
             </div>
           </div> )
           }
@@ -73,4 +80,3 @@ const UserList = () => {
 export default UserList;
 
 
-// class 24 part  1 22  number theke dekhte hobe 
