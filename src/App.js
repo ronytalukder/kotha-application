@@ -11,3 +11,5 @@ function App() {
 }
 
 export default App;
+
+// class 25 part-1 theke dekhte hobe. aj ker modhe ses korte hobe

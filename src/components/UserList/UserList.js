@@ -9,9 +9,11 @@ const UserList = () => {
   const db = getDatabase();
   const [userList, setUserList] =  useState([])
   const [friendRequestList, setFriendRequestList] =  useState([])
+
+  const [frienList, setfrienList] =  useState([])
   
   const data = useSelector(state => state.userLoginInfo.userInfo)
-  console.log(data.uid)
+  
 
   useEffect(()=>{
     const starCountRef = ref(db, 'users');
@@ -45,6 +47,17 @@ const UserList = () => {
       setFriendRequestList(arr)
     });
   },[])
+
+  useEffect(()=>{
+    const friendRef = ref(db, 'friend');
+    onValue(friendRef, (snapshot) => {
+      let arr = []
+      snapshot.forEach(item =>{
+          arr.push(item.val().reciverId+item.val().senderId)
+      })
+      setfrienList(arr)
+    });
+  },[])
  
     return (
         <div>
@@ -62,11 +75,17 @@ const UserList = () => {
             </div>
             <div>
               {
-                friendRequestList.includes(user.userId+data.uid) || friendRequestList.includes(data.uid+user.userId)
-                ?
-                <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green">Cancel Request </Button>
-                :
-                <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green"> Add Friend </Button>
+                 frienList.includes(user.userId+data.uid) || frienList.includes(data.uid+user.userId)
+                 ?
+                 <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green">Friend</Button>
+                 :
+                 friendRequestList.includes(user.userId+data.uid) || friendRequestList.includes(data.uid+user.userId)
+                 ?
+                 <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green">Cancel Request </Button>
+                 :
+                 <Button onClick={()=>handleFriendRequrest(user)} className="font-nunito capitalize" size="sm" color="green"> Add Friend </Button>
+              }
+              {
               }
 
             </div>
