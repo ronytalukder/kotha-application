@@ -12,4 +12,4 @@ function App() {
 
 export default App;
 
-// class 25 part-2 12 minutes  theke dekhte hobe. aj ker modhe ses korte hobe
+// class 26 theke dekhte hobe 

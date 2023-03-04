@@ -186,17 +186,8 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="w-full lg:w-[31%] md:w-[450%]   rounded-lg shadow-lg ">
-            <div className="flex justify-between items-center mb-5 px-5 ">
-              <h1 className="text-lg font-bold text-black font-nunito ">
-                My Groups
-              </h1>
-              <BsThreeDotsVertical className="text-xl cursor-pointer mr-[-8px]"></BsThreeDotsVertical>
-            </div>
-            <div className=" h-[250px] overflow-y-scroll p-5 ">
               <MyGroups></MyGroups>
-            </div>
-          </div>
+          
 
           <div className="w-full lg:w-[31%] md:w-[450%]   rounded-lg shadow-lg ">
             <div className="flex justify-between items-center mb-5 px-5 ">
