@@ -35,7 +35,15 @@ const FriendRequest = () => {
 
   return (
     <div>
-      {friendRequestList.map((item) => (
+      {
+        friendRequestList.length=== 0 
+        ?
+        <h2 className="text-3xl mb-10 text-center font-bold font-nunito text-primary-headding ">
+          No Request Available !!
+        </h2>
+         :
+         <>
+          {friendRequestList.map((item) => (
         <div className="flex justify-between items-center border-b pb-3 mb-3">
           <div className="flex items-center">
             <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
@@ -60,6 +68,9 @@ const FriendRequest = () => {
           </div>
         </div>
       ))}
+         </>
+      }
+     
     </div>
   );
 };

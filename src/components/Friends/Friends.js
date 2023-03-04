@@ -48,35 +48,44 @@ const Friends = () => {
 
   return (
     <div>
-      {friends.map((item, i) => (
-        <div
-          key={i}
-          className="flex justify-between items-start border-b pb-3 mb-3"
-        >
-          <div className="flex items-center">
-            <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
-              <img src="images/profile.png" alt="" />
+      {
+        friends.length===0 
+        ?
+        <h2 className="text-3xl mb-10 text-center font-bold font-nunito text-primary-headding ">
+          No Friend Available !!
+        </h2>
+        :
+        <>{friends.map((item, i) => (
+          <div
+            key={i}
+            className="flex justify-between items-start border-b pb-3 mb-3"
+          >
+            <div className="flex items-center">
+              <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
+                <img src="images/profile.png" alt="" />
+              </div>
+              <div>
+                <h3 className="text-base text-black font-bold font-nunito ">
+                  {data.uid === item.senderId
+                    ? item.reciverName
+                    : item.senderName}
+                </h3>
+                <p className="text-sm">Lorem, ipsum dolor</p>
+              </div>
             </div>
             <div>
-              <h3 className="text-base text-black font-bold font-nunito ">
-                {data.uid === item.senderId
-                  ? item.reciverName
-                  : item.senderName}
-              </h3>
-              <p className="text-sm">Lorem, ipsum dolor</p>
+              <Button
+                className="font-nunito bg-red"
+                size="sm"
+                onClick={() => handleBlock(item)}
+              >
+                Block
+              </Button>
             </div>
           </div>
-          <div>
-            <Button
-              className="font-nunito bg-red"
-              size="sm"
-              onClick={() => handleBlock(item)}
-            >
-              Block
-            </Button>
-          </div>
-        </div>
-      ))}
+        ))}</>
+      }
+      
     </div>
   );
 };

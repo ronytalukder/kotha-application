@@ -1,13 +1,12 @@
 import { Button } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 
 const BlockedUsers = () => {
   const db = getDatabase();
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const [blockLIst, setBlockList] = useState([]);
-
   useEffect(() => {
     const blockRef = ref(db, "block");
     onValue(blockRef, (snapshot) => {
@@ -31,9 +30,29 @@ const BlockedUsers = () => {
     });
   }, []);
 
+  const handleUnBlock = (item) => {
+    set(push(ref(db, 'friend')), {
+      senderName:item.block,
+      senderId:item.blockId,
+      reciverId:data.uid,
+      reciverName:data.displayName
+     })
+     .then(()=>{
+       remove(ref(db, 'block/'+item.id))
+     })
+  }
+
   return (
     <div>
-      {blockLIst.map((item,i) => (
+      {
+        blockLIst.length===0
+        ?
+        <h2 className="text-3xl mb-10 text-center font-bold font-nunito text-primary-headding ">
+        No Block User Available !!
+      </h2>
+        :
+        <>
+         {blockLIst.map((item,i) => (
         <div key={i} className="flex justify-between items-center border-b pb-3 mb-3">
           <div className="flex items-center">
             <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
@@ -52,14 +71,15 @@ const BlockedUsers = () => {
           </div>
           <div>
             {!item.blockById &&
-            <Button className="font-nunito" size="sm" color="green">
-              {" "}
+            <Button onClick={()=>handleUnBlock(item)} className="font-nunito" size="sm" color="green">
               unblock
             </Button>
             }
           </div>
         </div>
-      ))}
+      ))}</>
+      }
+     
     </div>
   );
 };
