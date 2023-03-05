@@ -12,4 +12,4 @@ function App() {
 
 export default App;
 
-// class 26 part - 4 dekhte hobe (search er part class 26 er part - 2 )
+// class 28 part - 2  dekhte hobe (search er part class 26 er part - 2 )

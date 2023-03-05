@@ -48,7 +48,7 @@ const MessegeGroup = ({ handleGroupJoin }) => {
                       <p className="text-sm">{item.groupTagLine}</p>
                     </div>
                   </div>
-                  <div>
+                  <div className="text-right">
                     <p className="text-sm text-secondary-headding">
                       Admin : {item.adminName}
                     </p>

@@ -185,7 +185,7 @@ const MyGroups = () => {
                       <p className="text-sm">{item.groupTagLine}</p>
                     </div>
                   </div>
-                  <div>
+                  <div className="text-right">
                     <p className="text-sm mb-1 text-secondary-headding">
                       Admin : {item.adminName}
                     </p>

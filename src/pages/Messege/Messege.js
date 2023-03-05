@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { FaSistrix } from "react-icons/fa";
 import Friends from "../../components/Friends/Friends";
 import MessegeGroup from "../../components/MessegeGroup";
+import Chat from "../../components/Chat/Chat";
 
 const Messege = () => {
   const data = useSelector((state) => state.userLoginInfo.userInfo);
@@ -13,7 +14,7 @@ const Messege = () => {
     }
   }, []);
   return (
-    <div className="px-7 mt-11 flex justify-between">
+    <div className="px-[100px] mt-11 flex justify-between">
 
       <div className="w-[40%] ">
         <div className="w-full mb-8  rounded-lg shadow-lg ">
@@ -47,7 +48,9 @@ const Messege = () => {
         </div>
       </div>
 
-      <div className="w-[55%] shadow-lg rounded-md h-6 bg-primary-headding"></div>
+      <div className="w-[55%] shadow-lg rounded-md  pt-9  bg-secondary-headding bg-opacity-5">
+        <Chat></Chat>
+      </div>
 
       {/* <div class="pt-2 relative mx-auto text-gray-600">
         <input
