@@ -3,6 +3,7 @@ import Main from "../Layout/Main";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import Messege from "../pages/Messege/Messege";
 import Registration from "../pages/registration";
 
 const router = createBrowserRouter([
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       {
         path:'/home',
         element:<Home></Home>
-    }
+    },
+      {
+        path:'/home/messege',
+        element:<Messege></Messege>
+    },
     ]
   },  
 ])

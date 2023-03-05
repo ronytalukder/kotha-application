@@ -2,6 +2,7 @@ import { Button } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
+import profile from '../../images/profile.png'
 
 const GroupList = ({handleGroupJoin}) => {
   const data = useSelector((state) => state.userLoginInfo.userInfo);
@@ -35,7 +36,7 @@ const GroupList = ({handleGroupJoin}) => {
             <div className="flex justify-between items-center border-b pb-3 mb-3">
               <div className="flex items-center">
                 <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
-                  <img src="images/profile.png" alt="" />
+                  <img src={profile} alt="" />
                 </div>
                 <div>
                   <h3 className="text-base text-black font-bold font-nunito ">

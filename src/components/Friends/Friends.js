@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
 import { useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
+import profile from '../../images/profile.png'
 const Friends = () => {
   const db = getDatabase();
   const data = useSelector((state) => state.userLoginInfo.userInfo);
@@ -62,7 +63,7 @@ const Friends = () => {
           >
             <div className="flex items-center">
               <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
-                <img src="images/profile.png" alt="" />
+                <img src={profile} alt="" />
               </div>
               <div>
                 <h3 className="text-base text-black font-bold font-nunito ">

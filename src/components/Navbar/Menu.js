@@ -143,14 +143,14 @@ const Menu = () => {
         className="p-1 font-normal"
       >
         <NavLink
-          to=""
+          to="/home/messege"
           className={({ isActive }) =>
             isActive
               ? "text-secondary-headding block border-t-2 pt-2  border-secondary-headding "
               : "text-primary-headding border-none"
           }
         >
-          <Tooltip content="Messesger" placement="bottom">
+          <Tooltip content="Messesge" placement="bottom">
             <Button
               variant="outlined"
               className="border-none h-auto p-0 hover:opacity-100 focus:shadow-none"
