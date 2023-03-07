@@ -1,10 +1,12 @@
 import { Button } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import profile from '../images/profile.png'
+import { activeChat } from "../slices/activeChatSlice";
 
 const MessegeGroup = ({ handleGroupJoin }) => {
+  const dispatch = useDispatch()
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const db = getDatabase();
   const [groupList, setGroupList] = useState([]);
@@ -21,6 +23,11 @@ const MessegeGroup = ({ handleGroupJoin }) => {
     });
   }, []);
 
+  const handleActiveChat = (item) =>{
+    dispatch(activeChat({ status:'group', id:item.key, name: item.groupName, adminId:item.adminId }));
+    localStorage.setItem('activeChat', JSON.stringify({status:'group', id:item.key, name: item.groupName, adminId:item.adminId}))
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center  px-5 ">
@@ -36,7 +43,7 @@ const MessegeGroup = ({ handleGroupJoin }) => {
           ) : (
             <>
               {groupList.map((item) => (
-                <div className="flex justify-between items-center border-b pb-3 mb-3">
+                <div onClick={()=>handleActiveChat(item)} className="flex justify-between items-center border-b pb-3 mb-3">
                   <div className="flex items-center">
                     <div className="w-14 h-14 mr-5 rounded-full overflow-hidden">
                       <img src={profile} alt="" />
